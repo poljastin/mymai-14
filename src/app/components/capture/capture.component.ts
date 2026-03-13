@@ -30,6 +30,9 @@ import { ImageStoreService, StoredImage } from '../../services/image-store.servi
           </span>
           Take Photo
         </button>
+        <button class="ghost-btn" type="button" (click)="toggleCamera()" [disabled]="isSwitching">
+          Switch Camera
+        </button>
         <button class="ghost-btn" type="button" (click)="goToCollage()" [disabled]="images.length === 0">
           Go to Layout
         </button>
@@ -50,6 +53,8 @@ export class CaptureComponent implements AfterViewInit, OnDestroy {
   images: StoredImage[] = [];
   isCapturing = false;
   helperText = 'Hold still and tap the shutter.';
+  isSwitching = false;
+  private facingMode: 'user' | 'environment' = 'environment';
 
   private stream: MediaStream | null = null;
 
@@ -73,9 +78,10 @@ export class CaptureComponent implements AfterViewInit, OnDestroy {
 
   private async startCamera(): Promise<void> {
     try {
+      this.stopCamera();
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: { ideal: 'environment' },
+          facingMode: { ideal: this.facingMode },
           width: { ideal: 1280 },
           height: { ideal: 720 }
         },
@@ -132,5 +138,13 @@ export class CaptureComponent implements AfterViewInit, OnDestroy {
     if (this.images.length === 0) return;
     this.stopCamera();
     this.router.navigateByUrl('/collage');
+  }
+
+  async toggleCamera(): Promise<void> {
+    if (this.isSwitching) return;
+    this.isSwitching = true;
+    this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
+    await this.startCamera();
+    this.isSwitching = false;
   }
 }
