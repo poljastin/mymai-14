@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "dist/birthday-camera"
+  publish = "dist/birthday-camera/browser"
 
 [[redirects]]
   from = "/*"
