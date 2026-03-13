@@ -1,0 +1,112 @@
+:root {
+  --bg-top: #16090d;
+  --bg-bottom: #2a0f14;
+  --accent: #f6c964;
+  --accent-strong: #ffb347;
+  --surface: rgba(255, 255, 255, 0.08);
+  --text-main: #fef7ef;
+  --text-muted: rgba(254, 247, 239, 0.7);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: radial-gradient(120% 120% at 20% 0%, #4a1c27 0%, var(--bg-top) 45%, var(--bg-bottom) 100%);
+  background-size: 180% 180%;
+  animation: ambient-shift 16s ease-in-out infinite;
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+@keyframes ambient-shift {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.screen {
+  width: min(100%, 440px);
+  min-height: 100vh;
+  padding: 24px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.screen::before {
+  content: '';
+  position: absolute;
+  inset: 16px 12px;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+.primary-btn,
+.ghost-btn {
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.primary-btn {
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  color: #3a2500;
+  box-shadow: 0 16px 28px rgba(246, 201, 100, 0.35);
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.primary-btn:not(:disabled):active,
+.ghost-btn:active {
+  transform: scale(0.98);
+}
+
+.ghost-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+}
+
+@media (max-width: 380px) {
+  .screen {
+    padding: 18px 16px 28px;
+  }
+}
